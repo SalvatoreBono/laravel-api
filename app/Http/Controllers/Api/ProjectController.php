@@ -15,7 +15,7 @@ class ProjectController extends Controller
     {
         //with("type", "technologies") = recupero i dati relativi a type e technologies
         //paginate(12) = avrò una paginazione di 12 risultati per pagina
-        $projects = Project::with("type", "technologies")->paginate(6);
+        $projects = Project::with(["type", "technologies"])->paginate(3);
         //Risposta JSON contenente come dati $projects
         return response()->json($projects);
     }
@@ -39,9 +39,10 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $project = Project::where("slug", $slug)->with(["type", "technologies"])->first();
+        return response()->json($project);
     }
 
     /**
