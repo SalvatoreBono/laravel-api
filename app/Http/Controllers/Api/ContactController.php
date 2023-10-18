@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactStoreRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -26,17 +27,15 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request)
     {
-        $data = $request->validate(
-            [
-                "name" => "require",
-                "email" => "require|email",
-                "message" => "require",
-            ]
-        );
-        $newContact = Contact::create($data);
-        return response()->json($newContact);
+        $data = $request->validated();
+        $newContact = new Contact();
+        $newContact->fill($data);
+        $newContact->save;
+        return response()->json([
+            `message` => "Ciao {$data[`name`]} hai inviato il messaggio con successo"
+        ]);
     }
 
     /**
