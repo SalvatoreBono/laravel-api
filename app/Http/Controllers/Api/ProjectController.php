@@ -42,6 +42,10 @@ class ProjectController extends Controller
     public function show(string $slug)
     {
         $project = Project::where("slug", $slug)->with(["type", "technologies"])->first();
+        //se project non è definito mando un 404 in modo da poter fare poi il catch dell'errore
+        if (!$project) {
+            abort(404);
+        }
         return response()->json($project);
     }
 
