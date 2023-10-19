@@ -32,9 +32,11 @@ class ContactController extends Controller
         $data = $request->validated();
         $newContact = new Contact();
         $newContact->fill($data);
-        $newContact->save;
+        $newContact->save();
         return response()->json([
-            `message` => "Ciao {$data[`name`]} hai inviato il messaggio con successo"
+            "message" => "Ciao {$data["name"]} hai inviato il messaggio con successo",
+            "contact" => $newContact,
+
         ]);
     }
 
